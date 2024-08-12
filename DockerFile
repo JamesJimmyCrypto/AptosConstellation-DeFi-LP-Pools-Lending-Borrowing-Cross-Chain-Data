@@ -1,0 +1,25 @@
+# Backend
+FROM node:14 as backend
+
+WORKDIR /usr/src/app
+
+COPY ./backend/package*.json ./
+RUN npm install
+COPY ./backend .
+
+EXPOSE 5000
+CMD ["node", "index.js"]
+
+# Frontend
+FROM node:14 as frontend
+
+WORKDIR /usr/src/app
+
+COPY ./frontend/package*.json ./
+RUN npm install
+COPY ./frontend .
+
+RUN npm run build
+
+EXPOSE 3000
+CMD ["npm", "start"]
